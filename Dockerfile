@@ -9,6 +9,7 @@ WORKDIR /app
 COPY * /app/
 COPY cronjob /etc/cron.d/cronjob
 RUN pip install -r /app/requirements.txt \
-    && chmod 0644 /etc/cron.d/cronjob
+    && chmod 0644 /etc/cron.d/cronjob \
+    && chmod +x /app/start.sh
 
 CMD ["/bin/bash","-c","./start.sh"]
