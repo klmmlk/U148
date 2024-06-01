@@ -11,4 +11,4 @@ COPY cronjob /etc/cron.d/cronjob
 RUN pip install -r /app/requirements.txt \
     && chmod 0644 /etc/cron.d/cronjob
 
-CMD ["cron","-f"]
+CMD ["/bin/bash","-c","./start.sh"]
