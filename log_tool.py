@@ -5,7 +5,7 @@ class Mylog:
         self.logger = logging.getLogger(log_name)
         self.logger.setLevel(logging.INFO)
         self.formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        self.file_handler = logging.FileHandler(f'{log_name}.log')
+        self.file_handler = logging.FileHandler(f'./logs/{log_name}.log')
         self.file_handler.setFormatter(self.formatter)
         self.logger.addHandler(self.file_handler)
 
