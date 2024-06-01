@@ -16,7 +16,7 @@ def get_content(aritcle_id):
             print(content)
             author_id = re.search(r'(?<=net\/u\/)\d*', soup.find('div', id='right').find('a')['href'])
             if author_id == True:
-                author_id = int(author_id.group())
+                author_id = author_id.group()
             else:
                 author_id = re.search(r'(?<=net\/u\/)\w*', soup.find('div', id='right').find('a')['href']).group()
             print(author_id)
@@ -48,7 +48,7 @@ def get_content(aritcle_id):
             # 获取作者
             author_id = re.search(r'(?<=net\/u\/)\d*', soup.find('div', class_='user-info').find('a')['href'])
             if author_id == True:
-                author_id = int(author_id.group())
+                author_id = author_id.group()
             else:
                 author_id = re.search(r'(?<=net\/u\/)\w*',
                                       soup.find('div', class_='user-info').find('a')['href']).group()
@@ -76,7 +76,7 @@ def get_content(aritcle_id):
             # 获取作者
             author_id = re.search(r'(?<=net\/u\/)\d*', soup.find('div', class_='author height13').find('a')['href'])
             if author_id == True:
-                author_id = int(author_id.group())
+                author_id = author_id.group()
             else:
                 author_id = re.search(r'(?<=net\/u\/)\w*',
                                       soup.find('div', class_='author height13').find('a')['href']).group()
