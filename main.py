@@ -139,17 +139,18 @@ def get_content(aritcle_id):
             update_data(aritcle_id, con_data)
             return
     else:
-        INFO_COLLECTION.update_one({'id': aritcle_id}, {'$set': {'status': 'failed'}})
+        INFO_COLLECTION.update_one({'_id': aritcle_id}, {'$set': {'status': 'failed'}})
         log.log_message(f"Failed to get content of article {aritcle_id}")
 
 if __name__ == '__main__':
     from log_tool import Mylog
 
     log = Mylog('main')
-    results = INFO_COLLECTION.find({'_id': {'$exists': True},'status':{'$exists': False}}).sort('_id', 1).limit(20)
-    id_list = [result['_id'] for result in results]
-    # print(list(results))
-    for id in id_list:
-        log.log_message(f"Start to get content of article {id}")
-        get_content(id)
+    # results = INFO_COLLECTION.find({'_id': {'$exists': True},'status':{'$exists': False}}).sort('_id', 1).limit(20)
+    # id_list = [result['_id'] for result in results]
+    # # print(list(results))
+    # for id in id_list:
+    #     log.log_message(f"Start to get content of article {id}")
+    #     get_content(id)
+    get_content(1)
 
