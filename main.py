@@ -33,7 +33,7 @@ def get_content(aritcle_id):
                                          1].text).group()
             print(publish_time)
             return {'title': title, 'content': str(content), 'author_id': author_id, 'publish_time': publish_time, 'status': 'ok'}
-        except AttributeError:
+        except (AttributeError  ,TypeError):
             return None
 
     def type_data2(soup):
@@ -122,7 +122,7 @@ def get_content(aritcle_id):
         soup = BeautifulSoup(con_response.content, 'lxml')
         # print(soup)
         if soup.find('h1').text == '抱歉，找不到你想要的页面……':
-            INFO_COLLECTION.update_one({'id': aritcle_id}, {'$set': {'status': 'failed'}})
+            INFO_COLLECTION.update_one({'_id': aritcle_id}, {'$set': {'status': 'failed'}})
             log.log_message(f"Failed to get content of article {aritcle_id}")
             return
         con_data = type_data1(soup)
@@ -148,7 +148,7 @@ if __name__ == '__main__':
     log = Mylog('main')
     results = INFO_COLLECTION.find({'_id': {'$exists': True},'status':{'$exists': False}}).sort('_id', 1).limit(20)
     id_list = [result['_id'] for result in results]
-    # print(list(results))
+    print(id_list)
     for id in id_list:
         log.log_message(f"Start to get content of article {id}")
         get_content(id)
