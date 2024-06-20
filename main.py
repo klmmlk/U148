@@ -121,7 +121,12 @@ def get_content(aritcle_id):
                 f"https://web.archive.org/web/{time}/http://www.u148.net/article/{aritcle_id}.html", headers=headers)
         soup = BeautifulSoup(con_response.content, 'lxml')
         # print(soup)
-        if soup.find('h1').text == '抱歉，找不到你想要的页面……':
+        try:
+            if soup.find('h1').text == '抱歉，找不到你想要的页面……':
+                INFO_COLLECTION.update_one({'_id': aritcle_id}, {'$set': {'status': 'failed'}})
+                log.log_message(f"Failed to get content of article {aritcle_id}")
+                return
+        except AttributeError:
             INFO_COLLECTION.update_one({'_id': aritcle_id}, {'$set': {'status': 'failed'}})
             log.log_message(f"Failed to get content of article {aritcle_id}")
             return
@@ -138,6 +143,9 @@ def get_content(aritcle_id):
             print(con_data)
             update_data(aritcle_id, con_data)
             return
+        else:
+            INFO_COLLECTION.update_one({'_id': aritcle_id}, {'$set': {'status': 'failed',"reason":"未知原因"}})
+            log.log_message(f"Failed to get content of article {aritcle_id}")
     else:
         INFO_COLLECTION.update_one({'_id': aritcle_id}, {'$set': {'status': 'failed'}})
         log.log_message(f"Failed to get content of article {aritcle_id}")
@@ -145,9 +153,16 @@ def get_content(aritcle_id):
 if __name__ == '__main__':
     from log_tool import Mylog
 
+    # log = Mylog('main')
+    # results = INFO_COLLECTION.find({'_id': {'$exists': True},'status':{'$exists': False}}).sort('_id', 1).limit(20)
+    # id_list = [result['_id'] for result in results]
+    # print(id_list)
+    # for id in id_list:
+    #     log.log_message(f"Start to get content of article {id}")
+    #     get_content(id)
     log = Mylog('main')
     results = INFO_COLLECTION.find({'_id': {'$exists': True},'status':{'$exists': False}}).sort('_id', 1).limit(20)
-    id_list = [result['_id'] for result in results]
+    id_list = [70]
     print(id_list)
     for id in id_list:
         log.log_message(f"Start to get content of article {id}")
