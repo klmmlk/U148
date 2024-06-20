@@ -153,19 +153,19 @@ def get_content(aritcle_id):
 if __name__ == '__main__':
     from log_tool import Mylog
 
-    # log = Mylog('main')
-    # results = INFO_COLLECTION.find({'_id': {'$exists': True},'status':{'$exists': False}}).sort('_id', 1).limit(20)
-    # id_list = [result['_id'] for result in results]
-    # print(id_list)
-    # for id in id_list:
-    #     log.log_message(f"Start to get content of article {id}")
-    #     get_content(id)
     log = Mylog('main')
     results = INFO_COLLECTION.find({'_id': {'$exists': True},'status':{'$exists': False}}).sort('_id', 1).limit(20)
-    id_list = [70]
+    id_list = [result['_id'] for result in results]
     print(id_list)
     for id in id_list:
         log.log_message(f"Start to get content of article {id}")
         get_content(id)
+    # log = Mylog('main')
+    # results = INFO_COLLECTION.find({'_id': {'$exists': True},'status':{'$exists': False}}).sort('_id', 1).limit(20)
+    # id_list = [70]
+    # print(id_list)
+    # for id in id_list:
+    #     log.log_message(f"Start to get content of article {id}")
+    #     get_content(id)
 
 
